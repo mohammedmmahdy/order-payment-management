@@ -69,10 +69,15 @@ class PaymentController extends Controller
             ->setStatusCode($successful ? 201 : 402);
     }
 
-    public function show(Request $request, string $payment): PaymentResource
+    public function show(Request $request, string $payment): PaymentResource|JsonResponse
     {
-        return new PaymentResource(
-            Payment::query()->forUser($request->user())->findOrFail($payment)
-        );
+        $payment = Payment::query()->forUser($request->user())->find($payment);
+        if (!$payment) {
+            return response()->json(['message' => 'Payment not found.'], 404);
+        }
+        return new PaymentResource($payment);
     }
+
+
+    
 }

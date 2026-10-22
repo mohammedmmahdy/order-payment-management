@@ -67,6 +67,8 @@ class OrderController extends Controller
      */
     private function findOwned(Request $request, string $id): Order
     {
-        return $request->user()->orders()->with('items')->findOrFail($id);
+        $order = $request->user()->orders()->with('items')->find($id);
+        if (!$order) { abort(404, 'Order not found.');}
+        return $order;
     }
 }

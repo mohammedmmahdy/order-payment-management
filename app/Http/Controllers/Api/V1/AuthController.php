@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -28,6 +29,24 @@ class AuthController extends Controller
         return $this->tokenResponse($token, auth('api')->user());
     }
 
+    public function me(Request $request): UserResource
+    {
+        return new UserResource($request->user());
+    }
+
+    public function logout(): JsonResponse
+    {
+        auth('api')->logout();
+
+        return response()->json(['message' => 'Successfully logged out.']);
+    }
+
+    public function refresh(): JsonResponse
+    {
+        $token = auth('api')->refresh();
+
+        return $this->tokenResponse($token, auth('api')->user());
+    }
 
     private function tokenResponse(string $token, User $user, int $status = 200): JsonResponse
     {
@@ -38,5 +57,4 @@ class AuthController extends Controller
             'user' => (new UserResource($user))->resolve(),
         ], $status);
     }
-
 }
