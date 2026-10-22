@@ -22,7 +22,8 @@ class PaymentGatewayManager
     public function __construct(
         private readonly Container $container,
         private readonly Repository $config,
-    ) {}
+    ) {
+    }
 
     /**
      * Payment methods that are currently enabled.

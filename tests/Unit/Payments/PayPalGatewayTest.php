@@ -27,7 +27,7 @@ class PayPalGatewayTest extends TestCase
 
     public function test_declines_a_payer_flagged_for_decline(): void
     {
-        $result = (new PayPalGateway)->charge($this->payment(), ['paypal_email' => 'decline@example.com']);
+        $result = (new PayPalGateway())->charge($this->payment(), ['paypal_email' => 'decline@example.com']);
 
         $this->assertFalse($result->successful);
         $this->assertSame('PayPal declined the payment.', $result->message);
@@ -35,7 +35,7 @@ class PayPalGatewayTest extends TestCase
 
     public function test_requires_a_valid_paypal_email(): void
     {
-        $gateway = new PayPalGateway;
+        $gateway = new PayPalGateway();
 
         $this->assertTrue(Validator::make([], $gateway->rules())->fails());
         $this->assertTrue(Validator::make(['paypal_email' => 'not-an-email'], $gateway->rules())->fails());

@@ -15,7 +15,9 @@ abstract class AbstractGateway implements PaymentGateway
     /**
      * @param  array<string, mixed>  $config
      */
-    public function __construct(protected array $config = []) {}
+    public function __construct(protected array $config = [])
+    {
+    }
 
     public function rules(): array
     {

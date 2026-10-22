@@ -15,7 +15,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PaymentController extends Controller
 {
-    public function __construct(private readonly PaymentService $payments) {}
+    public function __construct(private readonly PaymentService $payments)
+    {
+    }
 
     /** All payments of the authenticated user, optionally filtered by status / order_id. */
     public function index(ListPaymentsRequest $request): AnonymousResourceCollection
