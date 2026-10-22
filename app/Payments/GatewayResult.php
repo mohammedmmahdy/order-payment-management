@@ -15,8 +15,7 @@ final class GatewayResult
         public readonly ?string $transactionId,
         public readonly ?string $message,
         public readonly array $response = [],
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array<string, mixed>  $response

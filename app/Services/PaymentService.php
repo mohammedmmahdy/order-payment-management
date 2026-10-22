@@ -14,9 +14,7 @@ use Throwable;
 
 class PaymentService
 {
-    public function __construct(private readonly PaymentGatewayManager $gateways)
-    {
-    }
+    public function __construct(private readonly PaymentGatewayManager $gateways) {}
 
     public function process(Order $order, string $method, array $gatewayData = []): Payment
     {

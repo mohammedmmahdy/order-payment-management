@@ -15,9 +15,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PaymentController extends Controller
 {
-    public function __construct(private readonly PaymentService $payments)
-    {
-    }
+    public function __construct(private readonly PaymentService $payments) {}
 
     /** All payments of the authenticated user, optionally filtered by status / order_id. */
     public function index(ListPaymentsRequest $request): AnonymousResourceCollection
@@ -72,12 +70,10 @@ class PaymentController extends Controller
     public function show(Request $request, string $payment): PaymentResource|JsonResponse
     {
         $payment = Payment::query()->forUser($request->user())->find($payment);
-        if (!$payment) {
+        if (! $payment) {
             return response()->json(['message' => 'Payment not found.'], 404);
         }
+
         return new PaymentResource($payment);
     }
-
-
-    
 }

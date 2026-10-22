@@ -3,6 +3,7 @@
 namespace Tests\Unit\Payments;
 
 use App\Exceptions\UnsupportedPaymentMethodException;
+use App\Models\Payment;
 use App\Payments\Gateways\CreditCardGateway;
 use App\Payments\Gateways\PayPalGateway;
 use App\Payments\PaymentGatewayManager;
@@ -67,7 +68,7 @@ class PaymentGatewayManagerTest extends TestCase
             'api_key' => 'secret-key',
         ]]);
 
-        $payment = new \App\Models\Payment(['amount' => '1.00', 'currency' => 'USD']);
+        $payment = new Payment(['amount' => '1.00', 'currency' => 'USD']);
         $result = $this->manager()->gateway('fake')->charge($payment, ['token' => 'tok_ok']);
 
         $this->assertTrue($result->successful);

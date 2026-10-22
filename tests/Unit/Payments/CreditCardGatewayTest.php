@@ -27,7 +27,7 @@ class CreditCardGatewayTest extends TestCase
 
     public function test_approves_a_valid_card(): void
     {
-        $result = (new CreditCardGateway())->charge($this->payment(), $this->card());
+        $result = (new CreditCardGateway)->charge($this->payment(), $this->card());
 
         $this->assertTrue($result->successful);
         $this->assertStringStartsWith('cc_', $result->transactionId);
@@ -37,7 +37,7 @@ class CreditCardGatewayTest extends TestCase
 
     public function test_declines_the_decline_test_card(): void
     {
-        $result = (new CreditCardGateway())->charge(
+        $result = (new CreditCardGateway)->charge(
             $this->payment(),
             $this->card(['card_number' => CreditCardGateway::DECLINED_TEST_CARD]),
         );
@@ -49,7 +49,7 @@ class CreditCardGatewayTest extends TestCase
 
     public function test_declines_an_expired_card(): void
     {
-        $result = (new CreditCardGateway())->charge(
+        $result = (new CreditCardGateway)->charge(
             $this->payment(),
             $this->card(['expiry_month' => 1, 'expiry_year' => now()->year - 1]),
         );
@@ -60,7 +60,7 @@ class CreditCardGatewayTest extends TestCase
 
     public function test_never_exposes_the_full_card_number_or_cvv_in_the_response(): void
     {
-        $result = (new CreditCardGateway())->charge($this->payment(), $this->card());
+        $result = (new CreditCardGateway)->charge($this->payment(), $this->card());
 
         $encoded = json_encode($result->response);
 
@@ -70,7 +70,7 @@ class CreditCardGatewayTest extends TestCase
 
     public function test_rules_accept_valid_card_data(): void
     {
-        $validator = Validator::make($this->card(), (new CreditCardGateway())->rules());
+        $validator = Validator::make($this->card(), (new CreditCardGateway)->rules());
 
         $this->assertFalse($validator->fails());
     }
@@ -79,7 +79,7 @@ class CreditCardGatewayTest extends TestCase
     {
         $validator = Validator::make(
             $this->card(['card_number' => '12ab', 'expiry_month' => 13, 'cvv' => '1']),
-            (new CreditCardGateway())->rules(),
+            (new CreditCardGateway)->rules(),
         );
 
         $this->assertTrue($validator->fails());

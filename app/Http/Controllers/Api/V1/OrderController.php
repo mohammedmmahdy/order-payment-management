@@ -16,9 +16,7 @@ use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
-    public function __construct(private readonly OrderService $orders)
-    {
-    }
+    public function __construct(private readonly OrderService $orders) {}
 
     public function index(ListOrdersRequest $request): AnonymousResourceCollection
     {
@@ -68,7 +66,10 @@ class OrderController extends Controller
     private function findOwned(Request $request, string $id): Order
     {
         $order = $request->user()->orders()->with('items')->find($id);
-        if (!$order) { abort(404, 'Order not found.');}
+        if (! $order) {
+            abort(404, 'Order not found.');
+        }
+
         return $order;
     }
 }
